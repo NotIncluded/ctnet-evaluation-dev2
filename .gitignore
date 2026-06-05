@@ -37,9 +37,15 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
-<<<<<<< HEAD
-=======
 
 test-results/
 playwright-report/
->>>>>>> 4b03c1dc73a390cd2e77b9fd5787a7aa37261f20
+
+# .NET Build Folders
+bin/
+obj/
+
+# Visual Studio / IDE specific files
+.vs/
+.vscode/
+*.user
