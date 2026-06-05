@@ -1,6 +1,11 @@
 {
   "recommendations": [
     "Vue.volar",
+<<<<<<< HEAD
+=======
+    "vitest.explorer",
+    "ms-playwright.playwright",
+>>>>>>> 4b03c1dc73a390cd2e77b9fd5787a7aa37261f20
     "esbenp.prettier-vscode"
   ]
 }

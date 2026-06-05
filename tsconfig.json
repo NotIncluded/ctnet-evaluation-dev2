@@ -6,6 +6,12 @@
     },
     {
       "path": "./tsconfig.app.json"
+<<<<<<< HEAD
+=======
+    },
+    {
+      "path": "./tsconfig.vitest.json"
+>>>>>>> 4b03c1dc73a390cd2e77b9fd5787a7aa37261f20
     }
   ]
 }

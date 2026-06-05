@@ -7,6 +7,11 @@
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
+<<<<<<< HEAD
+=======
+    "test:unit": "vitest",
+    "test:e2e": "playwright test",
+>>>>>>> 4b03c1dc73a390cd2e77b9fd5787a7aa37261f20
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "format": "prettier --write --experimental-cli src/"
@@ -15,16 +20,32 @@
     "vue": "^3.5.32"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@tsconfig/node24": "^24.0.4",
     "@types/node": "^24.12.2",
     "@vitejs/plugin-vue": "^6.0.6",
     "@vitejs/plugin-vue-jsx": "^5.1.5",
     "@vue/tsconfig": "^0.9.1",
+=======
+    "@playwright/test": "^1.59.1",
+    "@tsconfig/node24": "^24.0.4",
+    "@types/jsdom": "^28.0.1",
+    "@types/node": "^24.12.2",
+    "@vitejs/plugin-vue": "^6.0.6",
+    "@vitejs/plugin-vue-jsx": "^5.1.5",
+    "@vue/test-utils": "^2.4.6",
+    "@vue/tsconfig": "^0.9.1",
+    "jsdom": "^29.0.2",
+>>>>>>> 4b03c1dc73a390cd2e77b9fd5787a7aa37261f20
     "npm-run-all2": "^8.0.4",
     "prettier": "3.8.3",
     "typescript": "~6.0.0",
     "vite": "^8.0.8",
     "vite-plugin-vue-devtools": "^8.1.1",
+<<<<<<< HEAD
+=======
+    "vitest": "^4.1.4",
+>>>>>>> 4b03c1dc73a390cd2e77b9fd5787a7aa37261f20
     "vue-tsc": "^3.2.6"
   },
   "engines": {
