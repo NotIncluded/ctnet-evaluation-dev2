@@ -28,11 +28,27 @@ export default function Login() {
       localStorage.setItem('jwt_token', response.data.token);
       navigate('/dashboard');
     } catch (error: any) {
-      if (error.response?.status === 429 || error.response?.status === 403) {
-         setServerError("Account locked for 5 minutes due to too many failed attempts.");
-      } else {
-         setServerError(error.response?.data?.message || "Invalid credentials.");
+      // 1. Rate Limiting (Too Many Requests - IP Block)
+      if (error.response?.status === 429) {
+         setServerError("Too many login attempts. Please wait a moment and try again.");
+         return;
       }
+
+      // 2. 401 Unauthorized (Bad password OR Identity Account Lockout)
+      if (error.response?.status === 401) {
+          // The C# backend sends the exact error string directly in `data`
+          const backendMessage = error.response.data; 
+          
+          if (typeof backendMessage === 'string') {
+              setServerError(backendMessage); 
+          } else {
+              setServerError("Invalid credentials.");
+          }
+          return;
+      }
+
+      // 3. Fallback for 500 Server Errors or network issues
+      setServerError("An unexpected error occurred. Please try again later.");
     }
   };
 
