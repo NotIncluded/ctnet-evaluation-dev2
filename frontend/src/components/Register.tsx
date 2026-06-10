@@ -132,6 +132,16 @@ export default function RegisterPage() {
               Register
             </Button>
           </Form.Item>
+          <Form.Item
+            style={{
+              marginBottom: 0,
+              display: 'flex',
+              justifyContent: 'center',
+              alignContent: 'bottom',
+            }}
+          >
+            Already have an account? <a href="/login">Login</a>
+          </Form.Item>
         </Form>
       </Card>
     </div>
