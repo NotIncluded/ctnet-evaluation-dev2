@@ -1,34 +1,36 @@
 /** @jsxImportSource react */
-import { type ReactNode, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './components/Login';
+import { type ReactNode, useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import Login from './components/Login'
+import RegisterPage from './components/Register'
 import Dashboard from './components/Dashboard'
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-  const token = localStorage.getItem('jwt_token');
+  const token = localStorage.getItem('jwt_token')
   if (!token) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" replace />
   }
-  return children;
-};
+  return children
+}
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/register" element={<RegisterPage />}></Route>
         <Route path="/login" element={<Login />} />
-        <Route 
-          path="/dashboard" 
+        <Route
+          path="/dashboard"
           element={
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>
-          } 
+          }
         />
       </Routes>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -2,12 +2,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Form, Input, Button, Card, Typography, Alert } from 'antd'
-import { MailOutlined, LockOutlined } from '@ant-design/icons'
+import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons'
 import api from '../api/axios'
 
 const { Title, Text } = Typography
 
-export default function Login() {
+export default function RegisterPage() {
   const navigate = useNavigate()
   const [serverError, setServerError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -16,15 +16,15 @@ export default function Login() {
     setServerError(null)
     setLoading(true)
     try {
-      const response = await api.post('/accounts/login', values)
+      const response = await api.post('/accounts/register', values)
       localStorage.setItem('jwt_token', response.data.token)
       navigate('/dashboard')
     } catch (error: any) {
-      if (error.response?.status === 429) {
-        setServerError('Too many login attempts. Please wait a moment and try again.')
-      } else if (error.response?.status === 401) {
+      if (error.response?.status === 400) {
         const backendMessage = error.response.data
-        setServerError(typeof backendMessage === 'string' ? backendMessage : 'Invalid credentials.')
+        setServerError(
+          typeof backendMessage === 'string' ? backendMessage : 'Invalid register information.',
+        )
       } else {
         setServerError('An unexpected error occurred. Please try again later.')
       }
@@ -32,7 +32,6 @@ export default function Login() {
       setLoading(false)
     }
   }
-
   return (
     <div
       style={{
@@ -49,16 +48,43 @@ export default function Login() {
       >
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
           <Title level={3} style={{ marginTop: 0 }}>
-            Welcome back
+            Welcome
           </Title>
-          <Text type="secondary">Please enter your details to sign in.</Text>
+          <Text type="secondary">Please enter your details to register.</Text>
         </div>
 
         {serverError && (
           <Alert message={serverError} type="error" showIcon style={{ marginBottom: 24 }} />
         )}
 
-        <Form name="login" onFinish={onFinish} layout="vertical" requiredMark={false} size="large">
+        <Form
+          name="register"
+          onFinish={onFinish}
+          layout="vertical"
+          requiredMark={true}
+          size="large"
+        >
+          <Form.Item
+            name="firstName"
+            label="First name"
+            rules={[{ required: true, message: 'First name is required' }]}
+          >
+            <Input placeholder="Enter your first name" />
+          </Form.Item>
+          <Form.Item
+            name="lastName"
+            label="Last name"
+            rules={[{ required: true, message: 'Last name is required' }]}
+          >
+            <Input placeholder="Enter your last name" />
+          </Form.Item>
+          <Form.Item
+            name="username"
+            label="Username"
+            rules={[{ required: true, message: 'Username is required' }]}
+          >
+            <Input prefix={<UserOutlined />} placeholder="Enter your username" />
+          </Form.Item>
           <Form.Item
             name="email"
             label="Email"
@@ -69,32 +95,42 @@ export default function Login() {
           >
             <Input prefix={<MailOutlined />} placeholder="Enter your email" />
           </Form.Item>
-
           <Form.Item
             name="password"
             label="Password"
             rules={[
               { required: true, message: 'Password is required' },
               { min: 8, message: 'Password must be at least 8 characters' },
+              {
+                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                message:
+                  'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+              },
             ]}
+            hasFeedback
           >
             <Input.Password prefix={<LockOutlined />} placeholder="••••••••" />
           </Form.Item>
-
+          <Form.Item
+            name="confirmPassword"
+            label="Confirm password"
+            rules={[
+              { required: true, message: 'Confirm your password!' },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) return Promise.resolve()
+                  return Promise.reject(new Error('The two passwords do not match!'))
+                },
+              }),
+            ]}
+            hasFeedback
+          >
+            <Input.Password prefix={<LockOutlined />} placeholder="••••••••" />
+          </Form.Item>
           <Form.Item style={{ marginTop: 32, marginBottom: 0 }}>
             <Button type="primary" htmlType="submit" block loading={loading}>
-              Sign in
+              Register
             </Button>
-          </Form.Item>
-          <Form.Item
-            style={{
-              marginBottom: 0,
-              display: 'flex',
-              justifyContent: 'center',
-              alignContent: 'bottom',
-            }}
-          >
-            Don't have an account? <a href="/register">Register</a>
           </Form.Item>
         </Form>
       </Card>
